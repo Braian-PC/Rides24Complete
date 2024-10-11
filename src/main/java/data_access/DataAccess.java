@@ -234,8 +234,12 @@ public class DataAccess {
 	 * @throws RideAlreadyExistException         if the same ride already exists for
 	 *                                           the driver
 	 */
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
+	public Ride createRide(int nPlaces, float price, Ride rRide)
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		String driverName=rRide.getDriver().getUsername();
+		String from= rRide.getFrom();
+		String to= rRide.getTo();
+		Date date= rRide.getDate();
 		logger.info(
 				">> DataAccess: createRide=> from= " + from + " to= " + to + " driver=" + driverName + " date " + date);
 		if (driverName==null) return null;
