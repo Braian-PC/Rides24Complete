@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-
+import java.util.logging.Logger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,7 +18,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import com.sun.istack.logging.Logger;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
@@ -38,7 +37,7 @@ public class DataAccess {
 	
 	private String adminPass="admin";
 	
-	Logger logger = Logger.getLogger(getClass().getName(), null);
+	Logger logger = Logger.getLogger(getClass().getName());
 
 	public DataAccess() {
 		
@@ -746,13 +745,13 @@ public class DataAccess {
 		}
 		return era;
 	}
+	
 
-	public boolean erreklamazioaBidali(String nor, String nori, Date gaur, Booking booking, String textua,
-			boolean aurk) {
+	public boolean erreklamazioaBidali(Complaint complaint) {
 		try {
 			db.getTransaction().begin();
 
-			Complaint erreklamazioa = new Complaint(nor, nori, gaur, booking, textua, aurk);
+			Complaint erreklamazioa = complaint;
 			db.persist(erreklamazioa);
 			db.getTransaction().commit();
 			return true;
@@ -971,24 +970,7 @@ public class DataAccess {
 					.createQuery("SELECT r FROM Ride r WHERE r.date > CURRENT_DATE AND r.active = true", Ride.class);
 			List<Ride> rides = rideQuery.getResultList();
 
-			for (Alert alert : alerts) {
-				boolean found = false;
-				for (Ride ride : rides) {
-					if (UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
-							&& ride.getFrom().equals(alert.getFrom()) && ride.getTo().equals(alert.getTo())
-							&& ride.getnPlaces() > 0) {
-						alert.setFound(true);
-						found = true;
-						if (alert.isActive())
-							alertFound = true;
-						break;
-					}
-				}
-				if (!found) {
-					alert.setFound(false);
-				}
-				db.merge(alert);
-			}
+			alertFound = UpdateFoundAlert(alertFound, alerts, rides);
 
 			db.getTransaction().commit();
 			return alertFound;
@@ -997,6 +979,31 @@ public class DataAccess {
 			db.getTransaction().rollback();
 			return false;
 		}
+	}
+	private boolean UpdateFoundAlert(boolean alertFound, List<Alert> alerts, List<Ride> rides) {
+		for (Alert alert : alerts) {
+			alertFound = findAlert(alertFound, rides, alert);
+			db.merge(alert);
+		}
+		return alertFound;
+	}
+	private boolean findAlert(boolean alertFound, List<Ride> rides, Alert alert) {
+		boolean found = false;
+		for (Ride ride : rides) {
+			if (UtilDate.datesAreEqualIgnoringTime(ride.getDate(), alert.getDate())
+					&& ride.getFrom().equals(alert.getFrom()) && ride.getTo().equals(alert.getTo())
+					&& ride.getnPlaces() > 0) {
+				alert.setFound(true);
+				found = true;
+				if (alert.isActive())
+					alertFound = true;
+				break;
+			}
+		}
+		if (!found) {
+			alert.setFound(false);
+		}
+		return alertFound;
 	}
 
 	public boolean createAlert(Alert alert) {
@@ -1050,3 +1057,4 @@ public class DataAccess {
 	}
 
 }
+
