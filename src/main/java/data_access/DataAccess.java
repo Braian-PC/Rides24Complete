@@ -918,8 +918,7 @@ public class DataAccess {
 		try {
 			db.getTransaction().begin();
 
-			TypedQuery<Alert> query = db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username",
-					Alert.class);
+			TypedQuery<Alert> query = this.getAlertaQuery();
 			query.setParameter("username", username);
 			List<Alert> alerts = query.getResultList();
 
@@ -959,14 +958,17 @@ public class DataAccess {
 			db.getTransaction().rollback();
 		}
 	}
-
+	
+	public TypedQuery<Alert> getAlertaQuery() {
+		return db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username",Alert.class);
+	}
+	
 	public boolean updateAlertaAurkituak(String username) {
 		try {
 			db.getTransaction().begin();
 
 			boolean alertFound = false;
-			TypedQuery<Alert> alertQuery = db.createQuery("SELECT a FROM Alert a WHERE a.traveler.username = :username",
-					Alert.class);
+			TypedQuery<Alert> alertQuery = this.getAlertaQuery();
 			alertQuery.setParameter("username", username);
 			List<Alert> alerts = alertQuery.getResultList();
 
