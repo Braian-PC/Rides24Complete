@@ -31,7 +31,7 @@ public class ApplicationLauncher {
 
 			if (c.isBusinessLogicLocal()) {
 
-				DataAccess da = new DataAccess();
+				DataAccess da = new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
 				appFacadeInterface = new BLFacadeImplementation(da);
 
 			}
