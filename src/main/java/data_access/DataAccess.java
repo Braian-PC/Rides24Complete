@@ -67,6 +67,38 @@ public class DataAccess {
 		close();
 
 	}
+	
+	
+	public DataAccess(boolean isInitialized) {
+		
+		if (isInitialized) {
+			String fileName = c.getDbFilename();
+			Path fileToDelete = Paths.get(fileName);
+            try {
+                // Delete the main file
+                Files.delete(fileToDelete);
+                // Delete the temporary file if it exists
+                Path fileToDeleteTemp = Paths.get(fileName + "$");
+                Files.deleteIfExists(fileToDeleteTemp);
+
+                logger.info("File deleted");
+            } catch (IOException e) {
+            	logger.info("Operation failed: "+e.getMessage());
+            }
+		}
+		open();
+		if (!c.isDatabaseInitialized()) {
+			initializeDB();
+		}
+
+		logger.info("DataAccess created => isDatabaseLocal: " + c.isDatabaseLocal() + " isDatabaseInitialized: "
+				+ c.isDatabaseInitialized());
+
+		close();
+
+	}
+	
+	
 	//This constructor is used to mock the DB
 	public DataAccess(EntityManager db) {
 		this.db = db;
@@ -190,10 +222,13 @@ public class DataAccess {
 			db.getTransaction().commit();
 			logger.info("Db initialized");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			db.getTransaction().rollback();
-		}
+	    } catch (Exception e) {
+	        /*e.printStackTrace();
+	        if (db.getTransaction().isActive()) {
+	            db.getTransaction().rollback();
+	        }*/
+	        logger.severe("Error al inicializar la base de datos");
+	    }
 	}
 
 	/**

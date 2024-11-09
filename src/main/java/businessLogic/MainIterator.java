@@ -4,7 +4,7 @@ public class MainIterator {
 	public static void main(String[] args) {
 		// the BL is local
 		boolean isLocal = true;
-		BLFacade blFacade = new BLFactory().getBusinessLogicFactory(isLocal);
+		BLFacade blFacade = new BLFacadeFactory().createBLFacade();
 		ExtendedIterator<String> i = blFacade.getDepartingCitiesIterator();
 		String c;
 		System.out.println("_____________________");
