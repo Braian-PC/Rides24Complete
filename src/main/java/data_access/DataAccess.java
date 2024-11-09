@@ -205,7 +205,8 @@ public class DataAccess {
 		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
 		return query.getResultList();
 	}
-
+	
+	
 	/**
 	 * This method returns all the arrival destinations, from all rides that depart
 	 * from a given city

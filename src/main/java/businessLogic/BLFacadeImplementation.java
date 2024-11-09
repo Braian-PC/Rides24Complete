@@ -62,7 +62,7 @@ public class BLFacadeImplementation implements BLFacade {
 		return departLocations;
 
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -460,6 +460,11 @@ public class BLFacadeImplementation implements BLFacade {
 		Complaint er = dbManager.getComplaintsByBook(book);
 		dbManager.close();
 		return er;
+	}
+
+	@Override
+	public ExtendedIterator<String> getDepartingCitiesIterator() {
+		return null;
 	}
 
 }
