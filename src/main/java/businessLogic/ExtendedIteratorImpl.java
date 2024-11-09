@@ -1,58 +1,46 @@
 package businessLogic;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ExtendedIteratorImpl<T> implements ExtendedIterator<T> {
     private List<T> list;
-    private int currentPosition;
+    private ListIterator<T> iterator;
 
     public ExtendedIteratorImpl(List<T> list) {
         this.list = list;
-        this.currentPosition = -1;
+        this.iterator = list.listIterator();
     }
 
     @Override
     public boolean hasNext() {
-        return currentPosition < list.size() - 1;
+        return iterator.hasNext();
     }
 
     @Override
     public T next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        currentPosition++;
-        return list.get(currentPosition);
-    }
-
-    @Override
-    public boolean hasPrevious() {
-        return currentPosition > 0;
+        return iterator.next();
     }
 
     @Override
     public T previous() {
-        if (!hasPrevious()) {
-            throw new NoSuchElementException();
-        }
-        currentPosition--;
-        return list.get(currentPosition);
+        return iterator.previous();
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return iterator.hasPrevious();
     }
 
     @Override
     public void goFirst() {
-        currentPosition = 0;
+        this.iterator = list.listIterator();
     }
 
     @Override
     public void goLast() {
-        currentPosition = list.size() - 1;
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("Remove not supported");
+        this.iterator = list.listIterator(list.size());
     }
 }
