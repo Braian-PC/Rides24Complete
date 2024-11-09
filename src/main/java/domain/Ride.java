@@ -146,6 +146,9 @@ public class Ride implements Serializable {
 		return driver;
 	}
 
+	public int getNPlaces() {
+		return nPlaces;
+	}
 	/**
 	 * Set the driver associated to the ride
 	 * 
