@@ -3,6 +3,7 @@ package businessLogic;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.jws.WebMethod;
@@ -462,9 +463,9 @@ public class BLFacadeImplementation implements BLFacade {
 		return er;
 	}
 
-	@Override
-	public ExtendedIterator<String> getDepartingCitiesIterator() {
-		return null;
+    // Nuevo método que devuelve un ExtendedIterator
+    public ExtendedIterator<String> getDepartingCitiesIterator() {
+        return new ExtendedIteratorImpl<>(getDepartCities());
 	}
 
 }

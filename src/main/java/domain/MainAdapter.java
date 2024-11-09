@@ -1,6 +1,7 @@
 package domain;
 
 import businessLogic.BLFacade;
+import businessLogic.BLFactory;
 
 public class MainAdapter {
 
