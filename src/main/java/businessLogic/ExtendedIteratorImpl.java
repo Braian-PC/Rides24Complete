@@ -10,7 +10,7 @@ public class ExtendedIteratorImpl<T> implements ExtendedIterator<T> {
 
     public ExtendedIteratorImpl(List<T> list) {
         this.list = list;
-        this.currentPosition = -1; // Inicialmente antes del primer elemento
+        this.currentPosition = -1;
     }
 
     @Override

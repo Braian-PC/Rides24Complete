@@ -67,3 +67,45 @@ public class ApplicationLauncher {
 	}
 
 }
+
+/**
+ * package gui;
+
+import java.util.Locale;
+import javax.swing.UIManager;
+import configuration.ConfigXML;
+import businessLogic.BLFacade;
+import businessLogic.BLFactory;
+
+public class ApplicationLauncher {
+
+    public static void main(String[] args) {
+
+        ConfigXML config = ConfigXML.getInstance();
+        System.out.println(config.getLocale());
+        Locale.setDefault(new Locale(config.getLocale()));
+        System.out.println("Locale: " + Locale.getDefault());
+
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
+            // Utilizar la factoría para obtener la implementación de BLFacade
+            BLFactory factory = new BLFactory();
+            BLFacade appFacadeInterface = factory.createBLFacade();
+            
+            if (appFacadeInterface == null) {
+                throw new Exception("Error: No se pudo crear la instancia de BLFacade.");
+            }
+
+            MainGUI.setBussinessLogic(appFacadeInterface);
+            MainGUI mainGui = new MainGUI();
+            mainGui.setVisible(true);
+
+        } catch (Exception e) {
+            System.out.println("Error in ApplicationLauncher: " + e);
+        }
+    }
+}
+
+ */
+*/
