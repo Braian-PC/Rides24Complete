@@ -5,7 +5,7 @@ import java.util.ListIterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ExtendedIteratorImpl<T> implements ExtendedIterator<T> {
+public class ExtendedIteratorCities<T> implements ExtendedIterator<T> {
     private List<T> list;
     private ListIterator<T> iterator;
 
