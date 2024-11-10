@@ -32,12 +32,8 @@ public class DriverTable extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                itxiera();
+            	System.exit(0);
             }
         });
-    }
-
-    private void itxiera() {
-        System.exit(0);
     }
 }
