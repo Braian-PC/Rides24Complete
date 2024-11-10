@@ -29,17 +29,15 @@ public class DriverTable extends JFrame {
 
         pack();
 
-        // Agrega un WindowListener para cerrar recursos al cerrar la ventana
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                limpiarRecursos();
+                itxiera();
             }
         });
     }
 
-    // Método para cerrar recursos asociados, como conexiones de base de datos
-    private void limpiarRecursos() {
+    private void itxiera() {
         System.exit(0);
     }
 }
