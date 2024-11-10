@@ -20,12 +20,7 @@ public class BLFacadeFactory {
         } else {
             // Lógica remota
             try {
-                String serviceName = "http://" + c.getBusinessLogicNode() + ":" + c.getBusinessLogicPort() + "/ws/"
-                        + c.getBusinessLogicName() + "?wsdl";
-                URL url = new URL(serviceName);
-                QName qname = new QName("http://businessLogic/", "BLFacadeImplementationService");
-                Service service = Service.create(url, qname);
-                return service.getPort(BLFacade.class);
+                return new BLFacadeRemote(c);
             } catch (Exception e) {
                 System.out.println("Error creating remote BLFacade: " + e.toString());
                 return null;
@@ -33,4 +28,6 @@ public class BLFacadeFactory {
         }
     }
 }
+
+
 
