@@ -465,7 +465,7 @@ public class BLFacadeImplementation implements BLFacade {
 
     // Nuevo método que devuelve un ExtendedIterator
     public ExtendedIterator<String> getDepartingCitiesIterator() {
-        return new ExtendedIteratorImpl<>(getDepartCities());
+        return new ExtendedIteratorCities<>(getDepartCities());
 	}
 
 }
